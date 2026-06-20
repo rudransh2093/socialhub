@@ -15,7 +15,7 @@ const Home = () => {
     // Fetch user info for composer avatar fallback
     const userData = JSON.parse(localStorage.getItem('userData')) || {};
     const localUsername = userData.username || 'User';
-    const localDisplayName = userData.first_name || localUsername;
+    const localDisplayName = userData.name || localUsername;
 
     const fetchData = async () => {
         const data = await get_posts(nextPage)
@@ -53,8 +53,7 @@ const Home = () => {
                 liked: false,
                 like_count: 0,
                 profile_image: userData.profile_image || null,
-                first_name: userData.first_name || '',
-                last_name: userData.last_name || ''
+                name: userData.name || ''
             };
             setPosts([formattedNewPost, ...posts]);
             setQuickPostText('');
@@ -179,8 +178,7 @@ const Home = () => {
                                       liked={post.liked} 
                                       like_count={post.like_count}
                                       profile_image={post.profile_image}
-                                      first_name={post.first_name}
-                                      last_name={post.last_name}
+                                      name={post.name}
                                     />
                                 )
                             })

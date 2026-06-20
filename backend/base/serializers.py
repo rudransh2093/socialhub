@@ -6,14 +6,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['username', 'email', 'name', 'password']
 
     def create(self, validated_data):
         user = MyUser(
             username=validated_data['username'],
             email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
+            name=validated_data.get('name', '')
         )
         user.set_password(validated_data['password'])
         user.save()
@@ -25,7 +24,7 @@ class MyUserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ['username', 'bio', 'profile_image', 'follower_count', 'following_count']
+        fields = ['username', 'name', 'bio', 'profile_image', 'follower_count', 'following_count']
 
     def get_follower_count(self, obj):
         return obj.followers.count()
@@ -39,12 +38,11 @@ class PostSerializer(serializers.ModelSerializer):
     like_count = serializers.SerializerMethodField()
     formatted_date = serializers.SerializerMethodField()
     profile_image = serializers.SerializerMethodField()
-    first_name = serializers.SerializerMethodField()
-    last_name = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'username', 'description', 'formatted_date', 'likes', 'like_count', 'profile_image', 'first_name', 'last_name']
+        fields = ['id', 'username', 'description', 'formatted_date', 'likes', 'like_count', 'profile_image', 'name']
 
     def get_username(self, obj):
         return obj.user.username
@@ -60,13 +58,10 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.user.profile_image.url
         return None
 
-    def get_first_name(self, obj):
-        return obj.user.first_name
-
-    def get_last_name(self, obj):
-        return obj.user.last_name
+    def get_name(self, obj):
+        return obj.user.name or obj.user.username
     
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
-        fields = ['username', 'bio', 'email', 'profile_image', 'first_name', 'last_name']
+        fields = ['username', 'bio', 'email', 'profile_image', 'name']

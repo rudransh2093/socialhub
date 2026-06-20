@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { SERVER_URL } from "../Constants/constants";
 
-const Post = ({ id, username, description, formatted_date, like_count, liked, profile_image, first_name, last_name }) => {
+const Post = ({ id, username, description, formatted_date, like_count, liked, profile_image, name }) => {
   const [clientLiked, setClientLiked] = useState(liked)
   const [clientLikeCount, setClientLikeCount] = useState(like_count)
   const navigate = useNavigate();
@@ -29,9 +29,7 @@ const Post = ({ id, username, description, formatted_date, like_count, liked, pr
     navigate(`/${username}`);
   }
 
-  const displayName = first_name || last_name 
-    ? `${first_name || ''} ${last_name || ''}`.trim() 
-    : username;
+  const displayName = name || username;
 
   return (
     <Flex 

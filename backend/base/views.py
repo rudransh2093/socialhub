@@ -50,8 +50,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 "username": user.username,
                 "bio": user.bio,
                 "email": user.email,
-                "first_name": user.first_name,
-                "last_name": user.last_name
+                "name": user.name
             }
         })
 

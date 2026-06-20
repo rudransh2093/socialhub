@@ -37,7 +37,7 @@ const Search = () => {
         <VStack w='100%' spacing="12px" mt="10px">
           {users && users.length > 0 ? (
             users.map((user) => {
-              return <UserResultItem key={user.username} username={user.username} profile_image={user.profile_image} first_name={user.first_name} last_name={user.last_name} />
+              return <UserResultItem key={user.username} username={user.username} profile_image={user.profile_image} name={user.name} />
             })
           ) : (
             search && (
@@ -50,7 +50,7 @@ const Search = () => {
   );    
 };
 
-const UserResultItem = ({username, profile_image, first_name, last_name}) => {
+const UserResultItem = ({username, profile_image, name}) => {
   const nav = useNavigate()
 
   const handleNav = () => {
@@ -88,7 +88,7 @@ const UserResultItem = ({username, profile_image, first_name, last_name}) => {
           /> 
         </Box>
         <VStack alignItems='start' gap='2px' flex="1">
-          <Text fontWeight='700' fontSize="16px" color="gray.100">{first_name} {last_name}</Text>
+          <Text fontWeight='700' fontSize="16px" color="gray.100">{name || username}</Text>
           <Text color='indigo.300' fontSize='14px' fontWeight="600">@{username}</Text>
         </VStack >
       </HStack>

@@ -7,8 +7,7 @@ const Register = () => {
 
     const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [lastName, setLastName] = useState('')
+    const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const navigate = useNavigate();
@@ -16,7 +15,7 @@ const Register = () => {
     const handleRegister = async () => {
         if (password === confirmPassword) {
             try {
-                await register(username, email, firstName, lastName, password);
+                await register(username, email, name, password);
                 alert('successful registration')
                 navigate('/login')
             } catch {
@@ -69,12 +68,8 @@ const Register = () => {
                     <Input id='email' onChange={(e) => setEmail(e.target.value)} type='email' h="44px" placeholder="Enter your email" />
                 </FormControl>
                 <FormControl>
-                    <FormLabel htmlFor='firstName' fontSize="14px" fontWeight="600" color="gray.300" mb="6px">First Name</FormLabel>
-                    <Input id='firstName' onChange={(e) => setFirstName(e.target.value)} type='text' h="44px" placeholder="Your first name" />
-                </FormControl>
-                <FormControl>
-                    <FormLabel htmlFor='lastName' fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Last Name</FormLabel>
-                    <Input id='lastName' onChange={(e) => setLastName(e.target.value)} type='text' h="44px" placeholder="Your last name" />
+                    <FormLabel htmlFor='name' fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Name</FormLabel>
+                    <Input id='name' onChange={(e) => setName(e.target.value)} type='text' h="44px" placeholder="Your display name" />
                 </FormControl>
                 <FormControl>
                     <FormLabel htmlFor='password' fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Password</FormLabel>

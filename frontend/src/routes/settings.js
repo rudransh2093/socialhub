@@ -8,8 +8,7 @@ const Settings = () => {
     const storage = JSON.parse(localStorage.getItem('userData'))
     const [username, setUsername] = useState(storage ? storage.username : '')
     const [email, setEmail] = useState(storage ? storage.email : '')
-    const [firstName, setFirstName] = useState(storage ? storage.first_name : '')
-    const [lastName, setLastName] = useState(storage ? storage.last_name : '')
+    const [name, setName] = useState(storage ? storage.name : '')
     const [bio, setBio] = useState(storage ? storage.bio : '')
     const [profileImage, setProfileImage] = useState(storage ? storage.profile_image : '')
 
@@ -20,8 +19,7 @@ const Settings = () => {
             const formData = new FormData();
             formData.append("username", username);
             formData.append("email", email);
-            formData.append("first_name", firstName);
-            formData.append("last_name", lastName);
+            formData.append("name", name);
             formData.append("bio", bio);
             
             // Append profile image only if a new one is selected
@@ -33,7 +31,7 @@ const Settings = () => {
             
             localStorage.setItem("userData", JSON.stringify({
                 "username": username, "email": email,
-                "first_name": firstName, "last_name": lastName, "bio": bio
+                "name": name, "bio": bio
             }));
     
             alert('Successfully updated!');
@@ -108,12 +106,8 @@ const Settings = () => {
                 <Input onChange={(e) => setEmail(e.target.value)} value={email} type='email' h="44px" />
               </FormControl>
               <FormControl>
-                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">First Name</FormLabel>
-                <Input onChange={(e) => setFirstName(e.target.value)} value={firstName} type='text' h="44px" />
-              </FormControl>
-              <FormControl>
-                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Last Name</FormLabel>
-                <Input onChange={(e) => setLastName(e.target.value)} value={lastName} type='text' h="44px" />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Name</FormLabel>
+                <Input onChange={(e) => setName(e.target.value)} value={name} type='text' h="44px" />
               </FormControl>
               <FormControl>
                 <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Bio</FormLabel>
