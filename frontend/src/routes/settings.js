@@ -1,4 +1,4 @@
-import { VStack, Flex,  Input, Button,  Heading, FormLabel, FormControl } from "@chakra-ui/react";
+import { VStack, Flex, Input, Button, Heading, FormLabel, FormControl, Box } from "@chakra-ui/react";
 import { useState } from "react";
 import { update_user,logout } from "../api/endpoints";
 import { useNavigate } from "react-router-dom";
@@ -52,39 +52,84 @@ const Settings = () => {
     }
 
     return (
-        <Flex w='100%' justifyContent='center' pt='50px'>
-          <VStack w='95%' maxW='500px' alignItems='start' gap='20px'>
-            <Heading>Settings</Heading>
-            <VStack w='100%' alignItems='start' gap='10px'>
+        <Flex w='100%' minH='calc(100vh - 80px)' justifyContent='center' alignItems='center' py="40px">
+          <VStack 
+            w='95%' 
+            maxW='450px' 
+            alignItems='stretch' 
+            gap='24px'
+            bg="rgba(255, 255, 255, 0.02)"
+            backdropFilter="blur(20px)"
+            border="1px solid rgba(255, 255, 255, 0.08)"
+            borderRadius="24px"
+            p={{ base: "30px 24px", sm: "40px" }}
+            boxShadow="0 12px 40px rgba(0,0,0,0.3)"
+          >
+            <Heading 
+              fontSize="28px" 
+              fontWeight="800" 
+              bgGradient="linear(to-r, #6366F1, #A855F7, #EC4899)" 
+              bgClip="text"
+              mb="10px"
+            >
+              Settings
+            </Heading>
+            
+            <VStack w='100%' alignItems='stretch' gap='16px'>
               <FormControl>
-                <FormLabel >Profile Picture</FormLabel>
-                <input onChange={(e) => setProfileImage(e.target.files[0])} bg='white' type='file' />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Profile Picture</FormLabel>
+                <Box 
+                  border="1px dashed rgba(255, 255, 255, 0.15)" 
+                  p="10px" 
+                  borderRadius="xl"
+                  bg="rgba(255, 255, 255, 0.01)"
+                  _hover={{ borderColor: "indigo.400" }}
+                  transition="all 0.2s"
+                >
+                  <input 
+                    onChange={(e) => setProfileImage(e.target.files[0])} 
+                    type='file' 
+                    accept="image/*"
+                    style={{
+                      width: "100%",
+                      color: "#A0AEC0",
+                      cursor: "pointer",
+                      fontSize: "14px"
+                    }}
+                  />
+                </Box>
               </FormControl>
               <FormControl>
-                <FormLabel>Username</FormLabel>
-                <Input onChange={(e) => setUsername(e.target.value)} value={username} bg='white' type='text' />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Username</FormLabel>
+                <Input onChange={(e) => setUsername(e.target.value)} value={username} type='text' h="44px" />
               </FormControl>
               <FormControl>
-                <FormLabel>Email</FormLabel>
-                <Input onChange={(e) => setEmail(e.target.value)} value={email} bg='white' type='email' />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Email</FormLabel>
+                <Input onChange={(e) => setEmail(e.target.value)} value={email} type='email' h="44px" />
               </FormControl>
               <FormControl>
-                <FormLabel>First Name</FormLabel>
-                <Input onChange={(e) => setFirstName(e.target.value)} value={firstName} bg='white' type='text' />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">First Name</FormLabel>
+                <Input onChange={(e) => setFirstName(e.target.value)} value={firstName} type='text' h="44px" />
               </FormControl>
               <FormControl>
-                <FormLabel>Last Name</FormLabel>
-                <Input onChange={(e) => setLastName(e.target.value)} value={lastName} bg='white' type='text' />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Last Name</FormLabel>
+                <Input onChange={(e) => setLastName(e.target.value)} value={lastName} type='text' h="44px" />
               </FormControl>
               <FormControl>
-                <FormLabel>Bio</FormLabel>
-                <Input onChange={(e) => setBio(e.target.value)} value={bio} bg='white' type='text' />
+                <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="6px">Bio</FormLabel>
+                <Input onChange={(e) => setBio(e.target.value)} value={bio} type='text' h="44px" />
               </FormControl>
             </VStack>
-            <Button  onClick={handleUpdate} w='100%' colorScheme="blue" mt='10px'>save changes</Button>
-            <Button onClick={handleLogout} colorScheme="red">logout</Button>
+            
+            <VStack w="100%" spacing="12px" mt="10px">
+              <Button onClick={handleUpdate} w='100%' h="48px" variant="solid">
+                Save Changes
+              </Button>
+              <Button onClick={handleLogout} w='100%' h="48px" variant="danger">
+                Log Out
+              </Button>
+            </VStack>
           </VStack>
-          
         </Flex>
     )
 }

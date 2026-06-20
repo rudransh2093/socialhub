@@ -38,10 +38,13 @@ class PostSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
     like_count = serializers.SerializerMethodField()
     formatted_date = serializers.SerializerMethodField()
+    profile_image = serializers.SerializerMethodField()
+    first_name = serializers.SerializerMethodField()
+    last_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['id', 'username', 'description', 'formatted_date', 'likes', 'like_count']
+        fields = ['id', 'username', 'description', 'formatted_date', 'likes', 'like_count', 'profile_image', 'first_name', 'last_name']
 
     def get_username(self, obj):
         return obj.user.username
@@ -51,6 +54,17 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_formatted_date(self, obj):
         return obj.created_at.strftime("%d %b %y")
+
+    def get_profile_image(self, obj):
+        if obj.user.profile_image:
+            return obj.user.profile_image.url
+        return None
+
+    def get_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
     
 class UserSerializer(serializers.ModelSerializer):
     class Meta:

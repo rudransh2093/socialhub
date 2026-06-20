@@ -1,28 +1,69 @@
-import {  VStack, Flex, Heading, FormControl, FormLabel, Input, Button } from "@chakra-ui/react";
+import { VStack, Flex, Heading, FormControl, FormLabel, Textarea, Button } from "@chakra-ui/react";
 import { useState } from "react";
 import { create_post } from "../api/endpoints";
 import { useNavigate } from "react-router-dom";
-const CreatePost = () => {
 
+const CreatePost = () => {
   const [description, setDescription] = useState('')
   const nav = useNavigate()
+  
   const handlePost = async () => {
-        try {   
-            await create_post(description)
-            nav('/')
-        } catch {
-            alert('error creating post')
-        }
+    try {   
+        await create_post(description)
+        nav('/')
+    } catch {
+        alert('error creating post')
     }
+  }
+
   return (
-    <Flex w='100%' h='100%' justifyContent='center' pt='50px'>
-      <VStack w='95%' maxW='450px' alignItems='start' gap='40px'>
-        <Heading>Create Post</Heading>
+    <Flex w='100%' minH='calc(100vh - 80px)' justifyContent='center' alignItems='center' py="40px">
+      <VStack 
+        w='95%' 
+        maxW='450px' 
+        alignItems='stretch' 
+        gap='24px'
+        bg="rgba(255, 255, 255, 0.02)"
+        backdropFilter="blur(20px)"
+        border="1px solid rgba(255, 255, 255, 0.08)"
+        borderRadius="24px"
+        p={{ base: "30px 24px", sm: "40px" }}
+        boxShadow="0 12px 40px rgba(0,0,0,0.3)"
+      >
+        <Heading 
+          fontSize="28px" 
+          fontWeight="800" 
+          bgGradient="linear(to-r, #6366F1, #A855F7, #EC4899)" 
+          bgClip="text"
+          mb="10px"
+        >
+          Create Post
+        </Heading>
+        
         <FormControl>
-          <FormLabel>Description</FormLabel>
-          <Input onChange={(e) => setDescription(e.target.value)} bg='white' type="text" />
+          <FormLabel fontSize="14px" fontWeight="600" color="gray.300" mb="8px">
+            What's on your mind?
+          </FormLabel>
+          <Textarea 
+            onChange={(e) => setDescription(e.target.value)} 
+            placeholder="Write your post content here..." 
+            size="md"
+            rows={5}
+            bg="rgba(255, 255, 255, 0.03)"
+            border="1px solid rgba(255, 255, 255, 0.08)"
+            borderRadius="xl"
+            _hover={{ borderColor: "rgba(255, 255, 255, 0.2)" }}
+            _focus={{
+              borderColor: "#6366F1",
+              boxShadow: "0 0 0 1px #6366F1",
+              bg: "rgba(255, 255, 255, 0.06)"
+            }}
+          />
         </FormControl>
-        <Button onClick={handlePost} w='100%' colorScheme="blue">Create Post</Button>
+        
+        <Button onClick={handlePost} h="48px" fontSize="16px" variant="solid" w="100%">
+          Share Post
+        </Button>
       </VStack>
     </Flex>
   );
