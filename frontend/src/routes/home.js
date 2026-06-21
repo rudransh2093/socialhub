@@ -1,4 +1,4 @@
-import { Heading, VStack, Text, Flex, Button, Spinner, Textarea, Avatar, Box, HStack } from "@chakra-ui/react";
+import { VStack, Text, Flex, Button, Spinner, Textarea, Avatar, Box, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { get_posts, create_post } from "../api/endpoints";
 import Post from "../components/post";
@@ -34,6 +34,7 @@ const Home = () => {
             }
         }
         loadInitialData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const loadMorePosts = () => {

@@ -1,6 +1,6 @@
 import {createContext, useContext, useState, useEffect} from 'react'
 import { get_auth } from '../api/endpoints';
-import { useNavigate} from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../api/endpoints';
 const AuthContext = createContext();
 
@@ -9,6 +9,7 @@ export const AuthProvider = ({children}) => {
     const [auth, setAuth] = useState(false)
     const [authLoading, setAuthLoading] = useState(true)
     const navigate = useNavigate();
+    const location = useLocation();
     const check_auth = async () => {
         try {
             await get_auth();
@@ -39,7 +40,7 @@ export const AuthProvider = ({children}) => {
       };
     useEffect(() => {
         check_auth()        
-    }, [window.location.pathname])
+    }, [location])
 
     return (
         <AuthContext.Provider value={{auth, authLoading, auth_login}}>

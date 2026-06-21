@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { SERVER_URL } from '../Constants/constants'
 
-const BASE_URL = SERVER_URL
 
 const api = axios.create({
     baseURL: SERVER_URL, 
