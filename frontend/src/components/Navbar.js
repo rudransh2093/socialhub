@@ -31,10 +31,11 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await logout();
+    } catch (e) {
+      console.error('Logout API failed:', e);
+    } finally {
       localStorage.removeItem('userData');
       nav('/login');
-    } catch {
-      alert('Error logging out');
     }
   };
 

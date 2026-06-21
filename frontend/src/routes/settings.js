@@ -43,9 +43,11 @@ const Settings = () => {
     const handleLogout = async () => {
         try {
             await logout();
-            nav('/login')
-        } catch {
-            alert ('error logging out')
+        } catch (e) {
+            console.error('Logout API failed:', e);
+        } finally {
+            localStorage.removeItem('userData');
+            nav('/login');
         }
     }
 

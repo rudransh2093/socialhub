@@ -20,6 +20,7 @@ api.interceptors.response.use(
                 await refresh_token();
                 return api(original_request);
             } catch (refreshError) {
+                localStorage.removeItem('userData');
                 if (original_request.url && !original_request.url.includes('/authenticated/')) {
                     window.location.href = '/login';
                 }
@@ -47,6 +48,9 @@ export const register = async (username, email, name, password) => {
 
 const refresh_token = async () => {
     const response = await api.post('/token/refresh/');
+    if (response.data && response.data.success === false) {
+        throw new Error('Token refresh failed');
+    }
     return response.data
 }
 
