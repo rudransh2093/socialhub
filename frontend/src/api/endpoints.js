@@ -4,7 +4,8 @@ import { SERVER_URL } from '../Constants/constants'
 
 const api = axios.create({
     baseURL: SERVER_URL, 
-    withCredentials: true
+    withCredentials: true,
+    timeout: 10000
 });
 
 api.interceptors.response.use(
@@ -19,7 +20,9 @@ api.interceptors.response.use(
                 await refresh_token();
                 return api(original_request);
             } catch (refreshError) {
-                window.location.href = '/login'
+                if (original_request.url && !original_request.url.includes('/authenticated/')) {
+                    window.location.href = '/login';
+                }
                 return Promise.reject(refreshError)
             }
         }
