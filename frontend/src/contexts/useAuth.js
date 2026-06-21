@@ -11,11 +11,19 @@ export const AuthProvider = ({children}) => {
     const navigate = useNavigate();
     const location = useLocation();
     const check_auth = async () => {
+        const userData = localStorage.getItem('userData');
+        if (!userData) {
+            setAuth(false);
+            setAuthLoading(false);
+            return;
+        }
+
         try {
             await get_auth();
             setAuth(true)
         } catch {
-            setAuth(false)
+            setAuth(false);
+            localStorage.removeItem('userData');
         } finally {
             setAuthLoading(false)
         }
