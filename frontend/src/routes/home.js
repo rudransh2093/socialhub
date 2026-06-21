@@ -296,33 +296,6 @@ const Home = () => {
                     </SimpleGrid>
                 </VStack>
 
-                {/* Stats Section */}
-                <HStack 
-                    spacing={{ base: 8, md: 16 }} 
-                    justify="center" 
-                    wrap="wrap" 
-                    mb="16" 
-                    py="8" 
-                    px="12" 
-                    bg="rgba(255, 255, 255, 0.01)" 
-                    borderRadius="24px" 
-                    border="1px solid rgba(255, 255, 255, 0.04)" 
-                    w="90%" 
-                    maxW="750px"
-                >
-                    <VStack spacing="0">
-                        <Text fontSize="32px" fontWeight="900" bgGradient="linear(to-r, #6366F1, #A855F7)" bgClip="text">10k+</Text>
-                        <Text fontSize="11px" fontWeight="700" color="gray.500" textTransform="uppercase" letterSpacing="1px">Active Users</Text>
-                    </VStack>
-                    <VStack spacing="0">
-                        <Text fontSize="32px" fontWeight="900" bgGradient="linear(to-r, #A855F7, #EC4899)" bgClip="text">50k+</Text>
-                        <Text fontSize="11px" fontWeight="700" color="gray.500" textTransform="uppercase" letterSpacing="1px">Posts Shared</Text>
-                    </VStack>
-                    <VStack spacing="0">
-                        <Text fontSize="32px" fontWeight="900" bgGradient="linear(to-r, #6366F1, #EC4899)" bgClip="text">99.9%</Text>
-                        <Text fontSize="11px" fontWeight="700" color="gray.500" textTransform="uppercase" letterSpacing="1px">Uptime</Text>
-                    </VStack>
-                </HStack>
 
                 {/* Footer */}
                 <Box w="100%" borderTop="1px solid rgba(255, 255, 255, 0.04)" py="8" textAlign="center">
