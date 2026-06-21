@@ -15,8 +15,16 @@ const Home = () => {
     const { auth, authLoading } = useAuth();
     const nav = useNavigate();
 
-    const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(true)
+    // SWR Initialization: Pre-populate from session storage if available
+    const [posts, setPosts] = useState(() => {
+        const cached = sessionStorage.getItem('cached_posts');
+        return cached ? JSON.parse(cached) : [];
+    });
+    // Skip loading spinner if we have cached posts to show
+    const [loading, setLoading] = useState(() => {
+        const cached = sessionStorage.getItem('cached_posts');
+        return !cached;
+    });
     const [nextPage, setNextPage] = useState(1)
     
     // Quick Post Creator state
@@ -28,17 +36,27 @@ const Home = () => {
     const localUsername = userData.username || 'User';
     const localDisplayName = userData.name || localUsername;
 
-    const fetchData = async () => {
-        const data = await get_posts(nextPage)
-        setPosts([...posts, ...data.results])
-        setNextPage(data.next ? nextPage+1 : null)
+    const fetchData = async (page = nextPage) => {
+        const data = await get_posts(page)
+        
+        let updatedPosts;
+        if (page === 1) {
+            updatedPosts = data.results;
+            sessionStorage.setItem('cached_posts', JSON.stringify(data.results));
+        } else {
+            updatedPosts = [...posts, ...data.results];
+        }
+
+        setPosts(updatedPosts)
+        setNextPage(data.next ? page + 1 : null)
     }
 
     useEffect(() => {
         if (auth) {
             const loadInitialData = async () => {
                 try {
-                    await fetchData()
+                    // Always refresh the first page in the background (SWR pattern)
+                    await fetchData(1)
                 } catch {
                     alert('error getting posts')
                 } finally {
@@ -54,7 +72,7 @@ const Home = () => {
 
     const loadMorePosts = () => {
         if (nextPage) {
-            fetchData()
+            fetchData(nextPage)
         }
     }
 
@@ -71,7 +89,10 @@ const Home = () => {
                 profile_image: userData.profile_image || null,
                 name: userData.name || ''
             };
-            setPosts([formattedNewPost, ...posts]);
+            const updatedPosts = [formattedNewPost, ...posts];
+            setPosts(updatedPosts);
+            // Update session cache with the new post
+            sessionStorage.setItem('cached_posts', JSON.stringify(updatedPosts.slice(0, 10)));
             setQuickPostText('');
         } catch {
             alert('Error creating post');

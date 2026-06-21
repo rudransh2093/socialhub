@@ -14,13 +14,26 @@ const Post = ({ id, username, description, formatted_date, like_count, liked, pr
 
   const handleToggleLike = async (e) => {
     e.stopPropagation();
-    const data = await toggleLike(id);
-    if (data.now_liked) {
-        setClientLiked(true)
-        setClientLikeCount(clientLikeCount+1)
-    } else {
-        setClientLiked(false)
-        setClientLikeCount(clientLikeCount-1)
+    
+    const originalLiked = clientLiked;
+    const originalLikeCount = clientLikeCount;
+    
+    const newLiked = !originalLiked;
+    const newLikeCount = originalLikeCount + (newLiked ? 1 : -1);
+    
+    setClientLiked(newLiked);
+    setClientLikeCount(newLikeCount);
+    
+    try {
+        const data = await toggleLike(id);
+        if (data.now_liked !== newLiked) {
+            setClientLiked(data.now_liked);
+            setClientLikeCount(originalLikeCount + (data.now_liked ? 1 : -1));
+        }
+    } catch {
+        setClientLiked(originalLiked);
+        setClientLikeCount(originalLikeCount);
+        alert('Could not update like. Please check your connection.');
     }
   }
 
