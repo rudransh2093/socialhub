@@ -22,7 +22,7 @@ function App() {
           <Routes>
             <Route element={<Layout><PrivateRoute><UserProfile/></PrivateRoute></Layout>} path='/:username'/>
             <Route element={<Layout><PrivateRoute><CreatePost /></PrivateRoute></Layout>} path='/create/post'/>
-            <Route element={<Layout><PrivateRoute><Home /></PrivateRoute></Layout>} path='/'/>
+            <Route element={<Layout><Home /></Layout>} path='/'/>
             <Route element={<Layout><PrivateRoute><Search /></PrivateRoute></Layout>} path='/search'/>
             <Route element={<Layout><PrivateRoute><Settings /></PrivateRoute></Layout>} path='/settings'/>
 

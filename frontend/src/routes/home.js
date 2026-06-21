@@ -1,9 +1,20 @@
-import { VStack, Text, Flex, Button, Spinner, Textarea, Avatar, Box, HStack } from "@chakra-ui/react";
+import { VStack, Text, Flex, Button, Spinner, Textarea, Avatar, Box, HStack, Heading, SimpleGrid } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { get_posts, create_post } from "../api/endpoints";
 import Post from "../components/post";
+import { useAuth } from "../contexts/useAuth";
+import { 
+  IoChatbubbleEllipsesOutline, 
+  IoPeopleOutline, 
+  IoSearchOutline, 
+  IoSettingsOutline 
+} from "react-icons/io5";
 
 const Home = () => {
+    const { auth, authLoading } = useAuth();
+    const nav = useNavigate();
+
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
     const [nextPage, setNextPage] = useState(1)
@@ -24,18 +35,22 @@ const Home = () => {
     }
 
     useEffect(() => {
-        const loadInitialData = async () => {
-            try {
-                await fetchData()
-            } catch {
-                alert('error getting posts')
-            } finally {
-                setLoading(false)
+        if (auth) {
+            const loadInitialData = async () => {
+                try {
+                    await fetchData()
+                } catch {
+                    alert('error getting posts')
+                } finally {
+                    setLoading(false)
+                }
             }
+            loadInitialData()
+        } else {
+            setLoading(false)
         }
-        loadInitialData()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [auth])
 
     const loadMorePosts = () => {
         if (nextPage) {
@@ -65,6 +80,240 @@ const Home = () => {
         }
     }
 
+    // Loading State
+    if (authLoading) {
+        return (
+            <Flex w="100%" h="80vh" justify="center" align="center" direction="column" gap="4">
+                <Spinner size="xl" color="#6366F1" thickness="4px" speed="0.8s" />
+                <Text fontSize="15px" fontWeight="600" color="gray.400" letterSpacing="0.5px">
+                    Loading socialhub...
+                </Text>
+            </Flex>
+        );
+    }
+
+    // Public Landing Page State (when logged out)
+    if (!auth) {
+        return (
+            <Flex direction="column" align="center" justify="center" w="100%" py="10" color="white">
+                {/* Hero Section */}
+                <VStack spacing="6" textAlign="center" maxW="800px" px="4" mb="16" mt="10">
+                    <Heading 
+                        fontSize={{ base: "4xl", md: "6xl" }} 
+                        fontWeight="900" 
+                        lineHeight="1.1" 
+                        letterSpacing="-1.5px"
+                        bgGradient="linear(to-r, #6366F1, #A855F7, #EC4899)"
+                        bgClip="text"
+                    >
+                        Welcome to socialhub
+                    </Heading>
+                    <Text fontSize={{ base: "md", md: "lg" }} color="gray.400" maxW="600px">
+                        A modern, minimal space to connect with friends, share your thoughts, and keep up with what's happening.
+                    </Text>
+                    <HStack spacing="4" mt="4">
+                        <Button 
+                            size="lg" 
+                            bgGradient="linear(to-r, #6366F1, #EC4899)" 
+                            color="white" 
+                            _hover={{ bgGradient: "linear(to-r, #5558DD, #DD3C8C)", transform: "scale(1.05)" }}
+                            onClick={() => nav('/register')}
+                            borderRadius="14px"
+                            h="54px"
+                            px="8"
+                            boxShadow="0 4px 20px rgba(99, 102, 241, 0.4)"
+                            transition="all 0.2s"
+                        >
+                            Get Started
+                        </Button>
+                        <Button 
+                            size="lg" 
+                            variant="outline" 
+                            borderColor="rgba(255, 255, 255, 0.15)"
+                            color="white" 
+                            _hover={{ bg: "rgba(255, 255, 255, 0.05)", transform: "scale(1.05)" }}
+                            onClick={() => nav('/login')}
+                            borderRadius="14px"
+                            h="54px"
+                            px="8"
+                            transition="all 0.2s"
+                        >
+                            Log In
+                        </Button>
+                    </HStack>
+                </VStack>
+
+                {/* Features Section */}
+                <VStack spacing="12" w="100%" maxW="900px" px="4" mb="16">
+                    <Heading fontSize={{ base: "2xl", md: "3xl" }} fontWeight="800" textAlign="center">
+                        Why choose socialhub?
+                    </Heading>
+                    <SimpleGrid columns={{ base: 1, md: 2 }} spacing="6" w="100%">
+                        {/* Feature 1 */}
+                        <Box 
+                            bg="rgba(255, 255, 255, 0.01)" 
+                            backdropFilter="blur(20px)"
+                            border="1px solid rgba(255, 255, 255, 0.06)" 
+                            borderRadius="20px" 
+                            p="6"
+                            transition="all 0.3s"
+                            _hover={{ bg: "rgba(255, 255, 255, 0.03)", transform: "translateY(-4px)", borderColor: "rgba(236, 72, 153, 0.2)" }}
+                        >
+                            <HStack align="start" spacing="4">
+                                <Flex 
+                                    w="44px" 
+                                    h="44px" 
+                                    borderRadius="12px" 
+                                    bg="rgba(236, 72, 153, 0.1)" 
+                                    align="center" 
+                                    justify="center" 
+                                    flexShrink={0}
+                                >
+                                    <IoChatbubbleEllipsesOutline size="22px" color="#EC4899" />
+                                </Flex>
+                                <VStack align="start" spacing="1">
+                                    <Text fontSize="16px" fontWeight="700" color="white">Real-time Feed</Text>
+                                    <Text fontSize="13px" color="gray.400">
+                                        Post thoughts instantly and stay in sync with what matters to you on a clean, dynamic timeline.
+                                    </Text>
+                                </VStack>
+                            </HStack>
+                        </Box>
+
+                        {/* Feature 2 */}
+                        <Box 
+                            bg="rgba(255, 255, 255, 0.01)" 
+                            backdropFilter="blur(20px)"
+                            border="1px solid rgba(255, 255, 255, 0.06)" 
+                            borderRadius="20px" 
+                            p="6"
+                            transition="all 0.3s"
+                            _hover={{ bg: "rgba(255, 255, 255, 0.03)", transform: "translateY(-4px)", borderColor: "rgba(99, 102, 241, 0.2)" }}
+                        >
+                            <HStack align="start" spacing="4">
+                                <Flex 
+                                    w="44px" 
+                                    h="44px" 
+                                    borderRadius="12px" 
+                                    bg="rgba(99, 102, 241, 0.1)" 
+                                    align="center" 
+                                    justify="center" 
+                                    flexShrink={0}
+                                >
+                                    <IoPeopleOutline size="22px" color="#6366F1" />
+                                </Flex>
+                                <VStack align="start" spacing="1">
+                                    <Text fontSize="16px" fontWeight="700" color="white">Connect with Others</Text>
+                                    <Text fontSize="13px" color="gray.400">
+                                        Discover profiles, see user bios, and connect with people who share similar ideas.
+                                    </Text>
+                                </VStack>
+                            </HStack>
+                        </Box>
+
+                        {/* Feature 3 */}
+                        <Box 
+                            bg="rgba(255, 255, 255, 0.01)" 
+                            backdropFilter="blur(20px)"
+                            border="1px solid rgba(255, 255, 255, 0.06)" 
+                            borderRadius="20px" 
+                            p="6"
+                            transition="all 0.3s"
+                            _hover={{ bg: "rgba(255, 255, 255, 0.03)", transform: "translateY(-4px)", borderColor: "rgba(168, 85, 247, 0.2)" }}
+                        >
+                            <HStack align="start" spacing="4">
+                                <Flex 
+                                    w="44px" 
+                                    h="44px" 
+                                    borderRadius="12px" 
+                                    bg="rgba(168, 85, 247, 0.1)" 
+                                    align="center" 
+                                    justify="center" 
+                                    flexShrink={0}
+                                >
+                                    <IoSearchOutline size="22px" color="#A855F7" />
+                                </Flex>
+                                <VStack align="start" spacing="1">
+                                    <Text fontSize="16px" fontWeight="700" color="white">Instant Search</Text>
+                                    <Text fontSize="13px" color="gray.400">
+                                        Find posts and users in milliseconds. Stay updated with what is trending in the community.
+                                    </Text>
+                                </VStack>
+                            </HStack>
+                        </Box>
+
+                        {/* Feature 4 */}
+                        <Box 
+                            bg="rgba(255, 255, 255, 0.01)" 
+                            backdropFilter="blur(20px)"
+                            border="1px solid rgba(255, 255, 255, 0.06)" 
+                            borderRadius="20px" 
+                            p="6"
+                            transition="all 0.3s"
+                            _hover={{ bg: "rgba(255, 255, 255, 0.03)", transform: "translateY(-4px)", borderColor: "rgba(99, 102, 241, 0.2)" }}
+                        >
+                            <HStack align="start" spacing="4">
+                                <Flex 
+                                    w="44px" 
+                                    h="44px" 
+                                    borderRadius="12px" 
+                                    bg="rgba(99, 102, 241, 0.1)" 
+                                    align="center" 
+                                    justify="center" 
+                                    flexShrink={0}
+                                >
+                                    <IoSettingsOutline size="22px" color="#6366F1" />
+                                </Flex>
+                                <VStack align="start" spacing="1">
+                                    <Text fontSize="16px" fontWeight="700" color="white">Unified Preferences</Text>
+                                    <Text fontSize="13px" color="gray.400">
+                                        Manage your settings, update your name, bio, and credentials through a simple preferences portal.
+                                    </Text>
+                                </VStack>
+                            </HStack>
+                        </Box>
+                    </SimpleGrid>
+                </VStack>
+
+                {/* Stats Section */}
+                <HStack 
+                    spacing={{ base: 8, md: 16 }} 
+                    justify="center" 
+                    wrap="wrap" 
+                    mb="16" 
+                    py="8" 
+                    px="12" 
+                    bg="rgba(255, 255, 255, 0.01)" 
+                    borderRadius="24px" 
+                    border="1px solid rgba(255, 255, 255, 0.04)" 
+                    w="90%" 
+                    maxW="750px"
+                >
+                    <VStack spacing="0">
+                        <Text fontSize="32px" fontWeight="900" bgGradient="linear(to-r, #6366F1, #A855F7)" bgClip="text">10k+</Text>
+                        <Text fontSize="11px" fontWeight="700" color="gray.500" textTransform="uppercase" letterSpacing="1px">Active Users</Text>
+                    </VStack>
+                    <VStack spacing="0">
+                        <Text fontSize="32px" fontWeight="900" bgGradient="linear(to-r, #A855F7, #EC4899)" bgClip="text">50k+</Text>
+                        <Text fontSize="11px" fontWeight="700" color="gray.500" textTransform="uppercase" letterSpacing="1px">Posts Shared</Text>
+                    </VStack>
+                    <VStack spacing="0">
+                        <Text fontSize="32px" fontWeight="900" bgGradient="linear(to-r, #6366F1, #EC4899)" bgClip="text">99.9%</Text>
+                        <Text fontSize="11px" fontWeight="700" color="gray.500" textTransform="uppercase" letterSpacing="1px">Uptime</Text>
+                    </VStack>
+                </HStack>
+
+                {/* Footer */}
+                <Box w="100%" borderTop="1px solid rgba(255, 255, 255, 0.04)" py="8" textAlign="center">
+                    <Text fontSize="13px" color="gray.600">
+                        &copy; 2026 socialhub. Designed with &hearts; for developers.
+                    </Text>
+                </Box>
+            </Flex>
+        );
+    }
+
+    // Authenticated Timeline Feed
     return (
         <Flex w='100%' justifyContent='center' pt='10px'>
             <VStack w='100%' maxW='450px' alignItems='center' gap='20px' pb='50px'>
