@@ -113,8 +113,17 @@ DATABASE_URL = os.environ.get(
     'postgresql://neondb_owner:npg_6cFiTpoaDCP5@ep-little-cloud-a1x6ukps-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require'
 )
 DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL)
+    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
 }
+
+# Password hashers - custom faster hasher registered first to speed up logins on Render free tier
+PASSWORD_HASHERS = [
+    'backend.hashers.MyFasterPBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
