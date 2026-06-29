@@ -13,8 +13,11 @@ const Register = () => {
     const navigate = useNavigate();
     const toast = useToast();
 
+    const [loading, setLoading] = useState(false)
+
     const handleRegister = async () => {
         if (password === confirmPassword) {
+            setLoading(true)
             try {
                 await register(username, email, name, password);
                 toast({
@@ -54,6 +57,8 @@ const Register = () => {
                         position: "top",
                     });
                 }
+            } finally {
+                setLoading(false)
             }
             
         } else {
@@ -122,7 +127,7 @@ const Register = () => {
                 </FormControl>
                 
                 <VStack w="100%" alignItems="stretch" gap="12px" mt="10px">
-                    <Button onClick={handleRegister} h="48px" fontSize="16px" variant="solid">
+                    <Button onClick={handleRegister} isLoading={loading} h="48px" fontSize="16px" variant="solid">
                         Register
                     </Button>
                     <Text 

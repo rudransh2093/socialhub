@@ -7,10 +7,18 @@ import { useNavigate } from "react-router-dom";
 const Search = () => {
   const [search, setSearch] = useState('')
   const [users, setUsers] = useState([])
+  const [searching, setSearching] = useState(false)
 
   const handleSearch = async () => {
-    const users = await search_users(search)
-    setUsers(users)
+    setSearching(true)
+    try {
+      const users = await search_users(search)
+      setUsers(users)
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setSearching(false)
+    }
   }
 
   return (
@@ -32,7 +40,7 @@ const Search = () => {
             placeholder="Search username or name..." 
             h="48px"
           />
-          <Button onClick={handleSearch} h="48px" px="6" variant="solid">Search</Button>
+          <Button onClick={handleSearch} isLoading={searching} h="48px" px="6" variant="solid">Search</Button>
         </HStack>
         <VStack w='100%' spacing="12px" mt="10px">
           {users && users.length > 0 ? (

@@ -6,11 +6,17 @@ import { useAuth } from "../contexts/useAuth";
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
     const navigate = useNavigate();
     const { auth_login } = useAuth();
 
-    const handleLogin = () => {
-        auth_login(username, password)
+    const handleLogin = async () => {
+        setLoading(true)
+        try {
+            await auth_login(username, password)
+        } finally {
+            setLoading(false)
+        }
     }
 
     const handleNav = () => {
@@ -72,7 +78,7 @@ const Login = () => {
                 </FormControl>
                 
                 <VStack w='100%' alignItems='stretch' spacing={4} mt="10px">
-                    <Button onClick={handleLogin} h="48px" fontSize='16px' variant="solid">
+                    <Button onClick={handleLogin} isLoading={loading} h="48px" fontSize='16px' variant="solid">
                       Log In
                     </Button>
                     <Text 

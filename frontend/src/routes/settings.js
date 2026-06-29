@@ -14,8 +14,10 @@ const Settings = () => {
 
     const nav = useNavigate();
     const toast = useToast();
+    const [saving, setSaving] = useState(false);
 
     const handleUpdate = async () => {
+        setSaving(true);
         try {
             const formData = new FormData();
             formData.append("username", username);
@@ -52,6 +54,8 @@ const Settings = () => {
                 isClosable: true,
                 position: "top",
             });
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -133,7 +137,7 @@ const Settings = () => {
             </VStack>
             
             <VStack w="100%" spacing="12px" mt="10px">
-              <Button onClick={handleUpdate} w='100%' h="48px" variant="solid">
+              <Button onClick={handleUpdate} isLoading={saving} w='100%' h="48px" variant="solid">
                 Save Changes
               </Button>
               <Button onClick={handleLogout} w='100%' h="48px" variant="danger">

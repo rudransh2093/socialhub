@@ -7,8 +7,10 @@ const CreatePost = () => {
   const [description, setDescription] = useState('')
   const nav = useNavigate()
   const toast = useToast()
+  const [loading, setLoading] = useState(false)
   
   const handlePost = async () => {
+    setLoading(true)
     try {   
         await create_post(description)
         toast({
@@ -29,6 +31,8 @@ const CreatePost = () => {
             isClosable: true,
             position: "top",
         })
+    } finally {
+        setLoading(false)
     }
   }
 
@@ -77,7 +81,7 @@ const CreatePost = () => {
           />
         </FormControl>
         
-        <Button onClick={handlePost} h="48px" fontSize="16px" variant="solid" w="100%">
+        <Button onClick={handlePost} isLoading={loading} h="48px" fontSize="16px" variant="solid" w="100%">
           Share Post
         </Button>
       </VStack>
