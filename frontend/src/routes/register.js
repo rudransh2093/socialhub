@@ -1,4 +1,4 @@
-import { VStack, Flex, FormControl, Input, Button, FormLabel, Heading, Text } from "@chakra-ui/react";
+import { VStack, Flex, FormControl, Input, Button, FormLabel, Heading, Text, useToast } from "@chakra-ui/react";
 import { register } from "../api/endpoints";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,12 +11,20 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const navigate = useNavigate();
+    const toast = useToast();
 
     const handleRegister = async () => {
         if (password === confirmPassword) {
             try {
                 await register(username, email, name, password);
-                alert('successful registration')
+                toast({
+                    title: "Registration Successful",
+                    description: "Your account has been created. Redirecting to login...",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "bottom-right",
+                });
                 navigate('/login')
             } catch (err) {
                 console.error('Registration error:', err);
@@ -28,14 +36,35 @@ const Register = () => {
                             return `${key}: ${Array.isArray(val) ? val.join(', ') : val}`;
                         })
                         .join('\n');
-                    alert(`Registration failed:\n${errorMessages}`);
+                    toast({
+                        title: "Registration Failed",
+                        description: errorMessages,
+                        status: "error",
+                        duration: 5000,
+                        isClosable: true,
+                        position: "bottom-right",
+                    });
                 } else {
-                    alert('Error registering');
+                    toast({
+                        title: "Error",
+                        description: "An error occurred during registration. Please try again.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "bottom-right",
+                    });
                 }
             }
             
         } else {
-            alert('password and confirm password are not identical')
+            toast({
+                title: "Validation Error",
+                description: "Password and Confirm Password are not identical.",
+                status: "warning",
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+            });
         }
     }
 

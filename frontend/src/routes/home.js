@@ -1,4 +1,4 @@
-import { VStack, Text, Flex, Button, Spinner, Textarea, Avatar, Box, HStack, Heading, SimpleGrid } from "@chakra-ui/react";
+import { VStack, Text, Flex, Button, Spinner, Textarea, Avatar, Box, HStack, Heading, SimpleGrid, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { get_posts, create_post } from "../api/endpoints";
@@ -14,6 +14,7 @@ import {
 const Home = () => {
     const { auth, authLoading } = useAuth();
     const nav = useNavigate();
+    const toast = useToast();
 
     // SWR Initialization: Pre-populate from session storage if available
     const [posts, setPosts] = useState(() => {
@@ -58,7 +59,14 @@ const Home = () => {
                     // Always refresh the first page in the background (SWR pattern)
                     await fetchData(1)
                 } catch {
-                    alert('error getting posts')
+                    toast({
+                        title: "Error",
+                        description: "Failed to fetch timeline posts.",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true,
+                        position: "bottom-right",
+                    })
                 } finally {
                     setLoading(false)
                 }
@@ -94,8 +102,23 @@ const Home = () => {
             // Update session cache with the new post
             sessionStorage.setItem('cached_posts', JSON.stringify(updatedPosts.slice(0, 10)));
             setQuickPostText('');
+            toast({
+                title: "Post Created",
+                description: "Your post was shared successfully!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+            });
         } catch {
-            alert('Error creating post');
+            toast({
+                title: "Error",
+                description: "Failed to create post. Please try again.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+            });
         } finally {
             setPosting(false);
         }

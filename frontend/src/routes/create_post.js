@@ -1,4 +1,4 @@
-import { VStack, Flex, Heading, FormControl, FormLabel, Textarea, Button } from "@chakra-ui/react";
+import { VStack, Flex, Heading, FormControl, FormLabel, Textarea, Button, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { create_post } from "../api/endpoints";
 import { useNavigate } from "react-router-dom";
@@ -6,13 +6,29 @@ import { useNavigate } from "react-router-dom";
 const CreatePost = () => {
   const [description, setDescription] = useState('')
   const nav = useNavigate()
+  const toast = useToast()
   
   const handlePost = async () => {
     try {   
         await create_post(description)
+        toast({
+            title: "Post Created",
+            description: "Your post was shared successfully!",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "bottom-right",
+        })
         nav('/')
     } catch {
-        alert('error creating post')
+        toast({
+            title: "Error",
+            description: "Failed to create post. Please try again.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "bottom-right",
+        })
     }
   }
 

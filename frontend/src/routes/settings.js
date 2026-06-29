@@ -1,4 +1,4 @@
-import { VStack, Flex, Input, Button, Heading, FormLabel, FormControl, Box } from "@chakra-ui/react";
+import { VStack, Flex, Input, Button, Heading, FormLabel, FormControl, Box, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { update_user,logout } from "../api/endpoints";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ const Settings = () => {
     const [profileImage, setProfileImage] = useState(storage ? storage.profile_image : '')
 
     const nav = useNavigate();
+    const toast = useToast();
 
     const handleUpdate = async () => {
         try {
@@ -34,9 +35,23 @@ const Settings = () => {
                 "name": name, "bio": bio
             }));
     
-            alert('Successfully updated!');
+            toast({
+                title: "Settings Updated",
+                description: "Your details have been successfully updated!",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+            });
         } catch {
-            alert('Error updating details');
+            toast({
+                title: "Error",
+                description: "Failed to update settings details.",
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "bottom-right",
+            });
         }
     };
 

@@ -1,4 +1,4 @@
-import { Box, Text, Flex, VStack, Heading, HStack, Image, Button, Spacer, Spinner } from "@chakra-ui/react"
+import { Box, Text, Flex, VStack, Heading, HStack, Image, Button, Spacer, Spinner, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { get_user_profile_data, get_users_posts, toggleFollow } from "../api/endpoints";
 import { SERVER_URL } from "../Constants/constants";
@@ -153,6 +153,7 @@ const UserDetails = ({ username }) => {
 const UserPosts = ({ username }) => {
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
+    const toast = useToast()
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -160,13 +161,20 @@ const UserPosts = ({ username }) => {
                 const posts = await get_users_posts(username)
                 setPosts(posts)
             } catch {
-                alert('error getting users posts')
+                toast({
+                    title: "Error",
+                    description: "Failed to fetch user posts.",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                    position: "bottom-right",
+                })
             } finally {
                 setLoading(false)
             }
         }
         fetchPosts()
-    }, [username])
+    }, [username, toast])
 
     return (
         <VStack w='100%' spacing='24px' pb='50px'>

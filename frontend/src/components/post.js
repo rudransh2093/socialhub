@@ -1,4 +1,4 @@
-import { VStack, Text, HStack, Flex, Box, Image } from '@chakra-ui/react'
+import { VStack, Text, HStack, Flex, Box, Image, useToast } from '@chakra-ui/react'
 import React from 'react'
 import { FaHeart } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
@@ -11,6 +11,7 @@ const Post = ({ id, username, description, formatted_date, like_count, liked, pr
   const [clientLiked, setClientLiked] = useState(liked)
   const [clientLikeCount, setClientLikeCount] = useState(like_count)
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleToggleLike = async (e) => {
     e.stopPropagation();
@@ -33,7 +34,14 @@ const Post = ({ id, username, description, formatted_date, like_count, liked, pr
     } catch {
         setClientLiked(originalLiked);
         setClientLikeCount(originalLikeCount);
-        alert('Could not update like. Please check your connection.');
+        toast({
+            title: "Error",
+            description: "Could not update like. Please check your connection.",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "bottom-right",
+        });
     }
   }
 
