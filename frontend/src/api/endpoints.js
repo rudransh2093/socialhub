@@ -11,10 +11,11 @@ const api = axios.create({
 api.interceptors.response.use(
     (response) => response,
     async error => {
-        const original_request = error.config
+        const original_request = error.config;
+        const isAuthEndpoint = original_request?.url && (original_request.url.includes('/token/') || original_request.url.includes('/register/'));
 
-        if (error.response?.status === 401 && !original_request._retry) {
-            original_request._retry = true;
+        if (error.response?.status === 401 && !original_request?._retry && !isAuthEndpoint) {
+            if (original_request) original_request._retry = true;
 
             try {
                 await refresh_token();

@@ -18,8 +18,20 @@ const Register = () => {
                 await register(username, email, name, password);
                 alert('successful registration')
                 navigate('/login')
-            } catch {
-                alert('error registering')
+            } catch (err) {
+                console.error('Registration error:', err);
+                if (err.response?.data) {
+                    const errors = err.response.data;
+                    const errorMessages = Object.keys(errors)
+                        .map(key => {
+                            const val = errors[key];
+                            return `${key}: ${Array.isArray(val) ? val.join(', ') : val}`;
+                        })
+                        .join('\n');
+                    alert(`Registration failed:\n${errorMessages}`);
+                } else {
+                    alert('Error registering');
+                }
             }
             
         } else {
