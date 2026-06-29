@@ -50,7 +50,7 @@ export const AuthProvider = ({children}) => {
                   status: "success",
                   duration: 3000,
                   isClosable: true,
-                  position: "bottom-right",
+                  position: "top",
               });
               navigate(`/${username}`);
             } else {
@@ -60,7 +60,7 @@ export const AuthProvider = ({children}) => {
                   status: "error",
                   duration: 3000,
                   isClosable: true,
-                  position: "bottom-right",
+                  position: "top",
               });
             }
         } catch (err) {
@@ -72,7 +72,7 @@ export const AuthProvider = ({children}) => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top",
             });
         }
     };

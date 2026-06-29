@@ -65,7 +65,7 @@ const Home = () => {
                         status: "error",
                         duration: 3000,
                         isClosable: true,
-                        position: "bottom-right",
+                        position: "top",
                     })
                 } finally {
                     setLoading(false)
@@ -108,7 +108,7 @@ const Home = () => {
                 status: "success",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top",
             });
         } catch {
             toast({
@@ -117,7 +117,7 @@ const Home = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top",
             });
         } finally {
             setPosting(false);

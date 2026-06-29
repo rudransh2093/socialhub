@@ -23,7 +23,7 @@ const Register = () => {
                     status: "success",
                     duration: 3000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "top",
                 });
                 navigate('/login')
             } catch (err) {
@@ -42,7 +42,7 @@ const Register = () => {
                         status: "error",
                         duration: 5000,
                         isClosable: true,
-                        position: "bottom-right",
+                        position: "top",
                     });
                 } else {
                     toast({
@@ -51,7 +51,7 @@ const Register = () => {
                         status: "error",
                         duration: 3000,
                         isClosable: true,
-                        position: "bottom-right",
+                        position: "top",
                     });
                 }
             }
@@ -63,7 +63,7 @@ const Register = () => {
                 status: "warning",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top",
             });
         }
     }

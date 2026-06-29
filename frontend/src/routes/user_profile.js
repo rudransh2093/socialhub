@@ -167,7 +167,7 @@ const UserPosts = ({ username }) => {
                     status: "error",
                     duration: 3000,
                     isClosable: true,
-                    position: "bottom-right",
+                    position: "top",
                 })
             } finally {
                 setLoading(false)

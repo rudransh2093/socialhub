@@ -41,7 +41,7 @@ const Settings = () => {
                 status: "success",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top",
             });
         } catch {
             toast({
@@ -50,7 +50,7 @@ const Settings = () => {
                 status: "error",
                 duration: 3000,
                 isClosable: true,
-                position: "bottom-right",
+                position: "top",
             });
         }
     };

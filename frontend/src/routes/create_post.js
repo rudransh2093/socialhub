@@ -17,7 +17,7 @@ const CreatePost = () => {
             status: "success",
             duration: 3000,
             isClosable: true,
-            position: "bottom-right",
+            position: "top",
         })
         nav('/')
     } catch {
@@ -27,7 +27,7 @@ const CreatePost = () => {
             status: "error",
             duration: 3000,
             isClosable: true,
-            position: "bottom-right",
+            position: "top",
         })
     }
   }
